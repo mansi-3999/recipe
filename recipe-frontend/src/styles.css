@@ -1,0 +1,78 @@
+body{font-family:Arial,Helvetica,sans-serif;margin:0}
+.header{display:flex;align-items:center;gap:1rem;padding:1rem;background:#0d6efd;color:#fff;flex-wrap:wrap}
+.header h1{margin:0;font-size:1.2rem}
+.typeahead{position:relative;min-width:300px}
+.typeahead input{padding:.5rem;border-radius:4px;border:1px solid #ccc;width:320px}
+.dropdown{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #ddd;max-height:300px;overflow:auto;z-index:40;padding:0;margin:0;list-style:none}
+.dropdown li{padding:.5rem;border-bottom:1px solid #f0f0f0;cursor:pointer}
+.dropdown li:hover{background:#f6f6f6}
+.dropdown .title{font-weight:600}
+.dropdown .meta{font-size:.85rem;color:#666}
+.dropdown .title{color:#111}
+.details h2{
+  color:#111;
+  margin:0 0 0.75rem 0;
+  font-size:2.5rem;
+  font-family: 'Brush Script MT', cursive;
+  font-weight:800;
+  letter-spacing:0.5px;
+  text-shadow: 1px 0 0 currentColor;
+}
+.details .description{
+  color:#333;
+  line-height:1.5;
+  margin-top:0.25rem;
+}
+.details .meta-rows{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+  margin:0.5rem 0
+}
+.details .meta-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;font-size:0.95rem;color:#444}
+.details .meta-row.timing{margin-top:0.25rem;padding-top:0.75rem;border-top:1px solid #eee}
+.details .instructions{margin-top:0.75rem}
+.details .instructions h3{margin-bottom:0.5rem}
+.details .instructions ol{padding-left:1.25rem}
+.details .ingredients{margin-top:0.75rem}
+.details .ingredients h3{margin-bottom:0.5rem}
+.details .ingredients ul{padding-left:1.25rem}
+
+.content{padding:1rem}
+.details{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:2rem;
+}
+
+@media (min-width: 768px) {
+  .details{
+    grid-template-columns: minmax(300px, 2fr) 3fr;
+  }
+  .details .image-column{
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+.details .recipe-image{
+  width:100%;
+  height:auto;
+  border-radius:8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.details .content-column{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.details .back-link{
+  grid-column: 1 / -1;
+  margin-bottom: 1rem;
+}
+
+.error{color:#dc3545;padding:.5rem;margin-top:.25rem;font-size:.875rem}
+.loader{color:#666;padding:.5rem;margin-top:.25rem;font-size:.875rem}
+@media (max-width:600px){.header{flex-direction:column;align-items:flex-start}.typeahead input{width:100%}}

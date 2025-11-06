@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter, useParams } from 'react-router-dom'
 import axios from 'axios'
-import RecipeDetails from '../pages/RecipeDetails'
+import RecipeDetails from '../RecipeDetails'
 
 jest.mock('axios')
 jest.mock('react-router-dom', () => ({
@@ -65,8 +65,8 @@ describe('RecipeDetails', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByText(/recipe not found/i)).toBeInTheDocument()
-      expect(screen.getByText(/back/i)).toBeInTheDocument()
+      expect(screen.getByText('Not found')).toBeInTheDocument()
+      expect(screen.getByText('Back to Home')).toBeInTheDocument()
     })
   })
 })

@@ -35,9 +35,9 @@ class RecipeServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        Recipe recipe1 = new Recipe(1L, "Pasta Carbonara", "Italian", "Classic pasta dish", "pasta1.jpg");
-        Recipe recipe2 = new Recipe(2L, "Pizza Margherita", "Italian", "Classic pizza", "pizza1.jpg");
-        Recipe recipe3 = new Recipe(3L, "Sushi Roll", "Japanese", "Fresh sushi", "sushi1.jpg");
+        Recipe recipe1 = new Recipe(null, "Pasta Carbonara", "Italian", "Classic pasta dish", "pasta1.jpg");
+        Recipe recipe2 = new Recipe(null, "Pizza Margherita", "Italian", "Classic pizza", "pizza1.jpg");
+        Recipe recipe3 = new Recipe(null, "Sushi Roll", "Japanese", "Fresh sushi", "sushi1.jpg");
         
         entityManager.persist(recipe1);
         entityManager.persist(recipe2);

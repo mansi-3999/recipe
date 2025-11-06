@@ -1,5 +1,7 @@
 package com.example.service;
 
+import com.example.exception.BadRequestException;
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.Recipe;
 import com.example.repository.RecipeRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,13 +38,19 @@ public class RecipeService {
 
     public List<Recipe> search(String q) {
         if (q == null || q.trim().isEmpty()) {
-            return List.of();
+            throw new BadRequestException("Search query cannot be empty");
         }
-        return searchService.search(q.trim());
+        try {
+            return searchService.search(q.trim());
+        } catch (Exception e) {
+            logger.error("Error during search operation", e);
+            throw new BadRequestException("Error processing search request: " + e.getMessage());
+        }
     }
 
     public Recipe findById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Recipe not found with id: " + id));
     }
 
     @Transactional

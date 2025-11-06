@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
-import Typeahead from '../components/Typeahead'
+import Typeahead from '../Typeahead'
 
 jest.mock('axios')
 

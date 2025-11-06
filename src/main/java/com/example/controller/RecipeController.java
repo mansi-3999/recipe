@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.Recipe;
 import com.example.service.RecipeService;
 import org.slf4j.Logger;
@@ -35,19 +36,31 @@ public class RecipeController {
     }
 
     @GetMapping("/search")
-    public List<RecipeSummary> search(@RequestParam(name = "q", required = false) String q) {
-        if (!StringUtils.hasText(q) || q.trim().length() < 1) {
-            return List.of();
+    public ResponseEntity<List<RecipeSummary>> search(@RequestParam(name = "q", required = false) String q) {
+        try {
+            if (!StringUtils.hasText(q) || q.trim().length() < 1) {
+                return ResponseEntity.ok(List.of());
+            }
+            List<Recipe> results = service.search(q.trim());
+            List<RecipeSummary> summaries = results.stream()
+                .map(RecipeSummary::from)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(summaries);
+        } catch (Exception e) {
+            logger.error("Error in search operation", e);
+            throw e;
         }
-        List<Recipe> results = service.search(q.trim());
-        return results.stream().map(RecipeSummary::from).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getById(@PathVariable("id") Long id) {
-        Recipe r = service.findById(id);
-        if (r == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(r);
+        try {
+            Recipe recipe = service.findById(id);
+            return ResponseEntity.ok(recipe);
+        } catch (ResourceNotFoundException e) {
+            logger.error("Recipe not found", e);
+            throw e;
+        }
     }
 
     public static class RecipeSummary {

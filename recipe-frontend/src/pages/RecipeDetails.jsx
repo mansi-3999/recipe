@@ -6,16 +6,29 @@ export default function RecipeDetails(){
   const { id } = useParams()
   const [recipe, setRecipe] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(()=>{
     let mounted = true
+    setError(null)
     axios.get(`/api/recipes/${id}`).then(r=>{
       if(mounted) setRecipe(r.data)
-    }).catch(()=>{}).finally(()=> mounted && setLoading(false))
+    }).catch((err)=>{
+      if(mounted) {
+        setError(err.response?.data?.message || err.message || 'An error occurred while fetching the recipe')
+        setRecipe(null)
+      }
+    }).finally(()=> mounted && setLoading(false))
     return ()=> mounted = false
   },[id])
 
   if (loading) return <div className="content">Loading…</div>
+  if (error) return (
+    <div className="content error">
+      <div className="error-message">{error}</div>
+      <Link to="/">Back to Home</Link>
+    </div>
+  )
   if (!recipe) return <div className="content">Recipe not found. <Link to="/">Back</Link></div>
 
   return (

@@ -2,10 +2,14 @@
 
 A full-stack application that provides recipe search with typeahead functionality. The backend fetches and indexes recipe data from an external API, while the frontend provides a responsive search interface with recipe details view.
 
-## Project Structure
+## Recipe Project Structure
 
-- `recipe/` - Spring Boot backend
-- `recipe-frontend/` - React frontend
+### Overview
+This project is organized as a monorepo with separate folders for the backend and frontend:
+
+- `recipe-backend/` — Java Spring Boot backend (source code in `src/`)
+- `recipe-frontend/` — React frontend (Vite)
+- `pom.xml` — Maven configuration for backend (kept in the root)
 
 ## Backend (Spring Boot)
 
@@ -27,7 +31,7 @@ A full-stack application that provides recipe search with typeahead functionalit
 ### Build and Run
 
 ```powershell
-cd recipe
+cd recipe-backend
 
 # Build
 mvn clean package

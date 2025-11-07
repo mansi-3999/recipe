@@ -9,7 +9,7 @@ This project is organized as a monorepo with separate folders for the backend an
 
 - `recipe-backend/` — Java Spring Boot backend (source code in `src/`)
 - `recipe-frontend/` — React frontend (Vite)
-- `pom.xml` — Maven configuration for backend (kept in the root)
+- `pom.xml` — Maven configuration for backend
 
 ## Backend (Spring Boot)
 

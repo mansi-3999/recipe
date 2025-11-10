@@ -3,7 +3,8 @@ package recipeApp.service;
 import recipeApp.model.Recipe;
 import recipeApp.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +12,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class SearchService {
+
+    private static final Logger log = LoggerFactory.getLogger(SearchService.class);
 
     private final RecipeRepository recipeRepository;
 

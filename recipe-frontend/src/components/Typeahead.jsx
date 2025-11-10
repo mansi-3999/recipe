@@ -24,11 +24,15 @@ export default function Typeahead(){
     setLoading(true)
     setError(null)
     try{
-      const res = await axios.get(`/api/recipes/search?q=${encodeURIComponent(q)}`)
+  const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/search?q=${encodeURIComponent(q)}`)
       setResults(res.data || [])
     }catch(err){
       console.error(err)
-      setError(err.response?.data?.message || 'Error searching recipes. Make sure to load recipes first.')
+      if (err.response && err.response.data && err.response.data.code) {
+        setError(`Error (${err.response.status} - ${err.response.data.code}): ${err.response.data.message}`)
+      } else {
+        setError(err.response?.data?.message || 'Error searching recipes. Make sure to load recipes first.')
+      }
       setResults([])
     }finally{
       setLoading(false)

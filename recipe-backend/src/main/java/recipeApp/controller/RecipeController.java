@@ -1,10 +1,12 @@
+
 package recipeApp.controller;
 
-// ...existing code...
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import recipeApp.model.Recipe;
 import recipeApp.service.RecipeService;
-// ...existing code...
-// ...existing code...
+import recipeApp.service.RecipeLoadService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
@@ -12,53 +14,55 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import recipeApp.dto.RecipeSummary;
+import recipeApp.dto.ErrorResponse;
 
 @RestController
-@RequestMapping("/api/v1/recipes")
+@RequestMapping("/v1/api/recipes")
+
 public class RecipeController {
-
     private final RecipeService service;
-    // ...existing code...
+    private final RecipeLoadService recipeLoadService;
 
-    public RecipeController(RecipeService service) {
+    public RecipeController(RecipeService service, RecipeLoadService recipeLoadService) {
         this.service = service;
+        this.recipeLoadService = recipeLoadService;
     }
 
+
     @PostMapping("/load")
-    public ResponseEntity<?> load() {
-        int count = service.loadFromExternal();
-        return ResponseEntity.ok("Loaded: " + count);
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Recipes loaded successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request - invalid input or parameters"),
+        @ApiResponse(responseCode = "500", description = "Server error or external API unavailable")
+    })
+    public String load() {
+        int count = recipeLoadService.loadFromExternal();
+        return "Loaded: " + count;
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<RecipeSummary>> search(@RequestParam(name = "q", required = false) String q) {
-        if (!StringUtils.hasText(q) || q.trim().length() < 1) {
-            return ResponseEntity.ok(List.of());
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Search successful, recipes returned"),
+        @ApiResponse(responseCode = "400", description = "Bad request - invalid query parameter"),
+        @ApiResponse(responseCode = "500", description = "Server error")
+    })
+    public List<RecipeSummary> search(@RequestParam(name = "q", required = false) String q) {
+        try {
+            return service.searchAndSummarize(q);
+        } catch (Exception e) {
+            return List.of();
         }
-        List<Recipe> results = service.search(q.trim());
-        List<RecipeSummary> summaries = results.stream()
-            .map(RecipeSummary::from)
-            .collect(Collectors.toList());
-        return ResponseEntity.ok(summaries);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getById(@PathVariable("id") @NonNull Long id) {
-        Recipe recipe = service.findById(id);
-        return ResponseEntity.ok(recipe);
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Recipe found and returned"),
+        @ApiResponse(responseCode = "400", description = "Bad request - invalid ID"),
+        @ApiResponse(responseCode = "500", description = "Server error")
+    })
+    public Recipe getById(@PathVariable("id") @NonNull Long id) {
+        return service.findById(id);
     }
 
-    public static class RecipeSummary {
-        public Long id;
-        public String name;
-        public String cuisine;
-
-        public static RecipeSummary from(Recipe r) {
-            RecipeSummary s = new RecipeSummary();
-            s.id = r.getId();
-            s.name = r.getName();
-            s.cuisine = r.getCuisine();
-            return s;
-        }
-    }
 }

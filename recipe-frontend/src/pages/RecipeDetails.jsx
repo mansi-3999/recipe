@@ -11,7 +11,7 @@ export default function RecipeDetails(){
   useEffect(()=>{
     let mounted = true
     setError(null)
-    axios.get(`/api/recipes/${id}`).then(r=>{
+  axios.get(`${import.meta.env.VITE_API_BASE_URL}/${id}`).then(r=>{
       if(mounted) setRecipe(r.data)
     }).catch((err)=>{
       if(mounted) {

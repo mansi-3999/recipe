@@ -17,10 +17,23 @@ import java.util.List;
 
 @Entity
 @Table(name = "recipes")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Recipe {
+
+    public Long getId() {
+        return id;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getCuisine() {
+        return cuisine;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public String getImage() {
+        return image;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +49,6 @@ public class Recipe {
 
     private String image;
 
-    // Optional extended fields populated from external datasource
     @ElementCollection
     @CollectionTable(name = "recipe_instructions", joinColumns = @JoinColumn(name = "recipe_id"))
     @Column(name = "instruction", length = 2000)
@@ -55,7 +67,6 @@ public class Recipe {
     private String difficulty;
     private Integer caloriesPerServing;
 
-    // Keep a convenience constructor compatible with existing tests and code
     public Recipe(Long id, String name, String cuisine, String description, String image) {
         this.id = id;
         this.name = name;

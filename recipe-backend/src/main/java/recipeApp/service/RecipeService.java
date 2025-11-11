@@ -63,5 +63,9 @@ public class RecipeService {
         return repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Recipe not found with id: " + id));
     }
+
+    public List<Recipe> getAllRecipes() {
+        return repository.findAll();
+    }
     
 }

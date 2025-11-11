@@ -1,39 +1,17 @@
 package recipeApp.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
+@Data  // ✅ Automatically generates getters, setters, toString, equals, and hashCode
+@NoArgsConstructor  // ✅ Generates a no-argument constructor (required by JPA)
+@AllArgsConstructor  // ✅ Generates a full-argument constructor
 @Entity
 @Table(name = "recipes")
 public class Recipe {
-
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getCuisine() {
-        return cuisine;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public String getImage() {
-        return image;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import recipeApp.dto.RecipeSummary;
 import recipeApp.dto.ErrorResponse;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/v1/api/recipes")
 
@@ -63,6 +64,22 @@ public class RecipeController {
     })
     public Recipe getById(@PathVariable("id") @NonNull Long id) {
         return service.findById(id);
+    }
+
+    @GetMapping
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Fetched all recipes successfully"),
+            @ApiResponse(responseCode = "500", description = "Server error")
+    })
+    public List<RecipeSummary> getAllRecipes() {
+        try {
+            return service.getAllRecipes()
+                    .stream()
+                    .map(RecipeSummary::from)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            return List.of();
+        }
     }
 
 }

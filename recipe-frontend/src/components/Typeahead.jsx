@@ -25,6 +25,7 @@ export default function Typeahead(){
     setError(null)
     try{
   const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/search?q=${encodeURIComponent(q)}`)
+  console.log("Response data:", res.data);
       setResults(res.data || [])
     }catch(err){
       console.error(err)

@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build Backend') {
             steps {
-                dir('backend') {
+                dir('recipe-backend') {
                     sh 'docker build -t $DOCKERHUB_USERNAME/recipe-backend:latest .'
                 }
             }
